@@ -11,6 +11,7 @@ import os = require("os");
 import { APP_ID, APP_KEY, MASTER_KEY } from "./configs";
 import Reception from "./reception";
 import PRSGame from "./rps-game";
+import translate from '../api/furigana/translate-article';
 
 const app = express();
 app.use(bodyParser.json());
@@ -24,32 +25,15 @@ app.get("/", (req, res) => {
 });
 
 app.post('/furigana/translate-article', async (req, res) => {
-  const Kuroshiro = require('kuroshiro');
-  const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji');
-
   const { content } = req.body;
+  console.log(content);
 
-    try {
-        const kuroshiro = new Kuroshiro();
-        await kuroshiro.init(new KuromojiAnalyzer());
-
-        const result = await kuroshiro.convert(content, { 
-            to: 'hiragana',
-            mode: 'furigana',
-        });
-
-        res.json({
-            success: true,
-            data: {
-                htmlContent: result,
-            },
-        });
-    } catch (err) {
-        console.error(err);
-        res.json({
-            success: false,
-        });
-    }
+  res.json({
+    success: true,
+    data: {
+        htmlContent: await translate(content),
+    },
+  });
 });
 
 const reception = new Reception(
