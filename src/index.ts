@@ -13,7 +13,8 @@ import Reception from "./reception";
 import PRSGame from "./rps-game";
 
 const app = express();
-app.use(bodyParser.json());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cors());
 
 // 首页仅起到响应健康检查的作用
