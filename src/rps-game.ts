@@ -12,8 +12,8 @@ const wins = [1, 2, 0];
 /**
  * 石头剪刀布游戏
  */
-@watchRoomFull()
-@autoDestroy()
+// @watchRoomFull()
+// @autoDestroy()
  export default class RPSGame extends Game {
   public static defaultSeatCount = 2;
 
