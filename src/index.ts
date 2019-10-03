@@ -12,7 +12,10 @@ import { APP_ID, APP_KEY, MASTER_KEY } from "./configs";
 import Reception from "./reception";
 import PRSGame from "./rps-game";
 
+const timeout = require('connect-timeout');
+
 const app = express();
+app.use(timeout('600s'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cors());
@@ -29,7 +32,6 @@ app.post('/furigana/translate-article', async (req, res) => {
   const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji');
 
   const { content } = req.body;
-  console.log(content);
 
     try {
         const kuroshiro = new Kuroshiro();
