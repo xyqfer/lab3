@@ -5,6 +5,7 @@ var timeout = require('connect-timeout');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+const cors = require('cors');
 var AV = require('leanengine');
 
 // 加载云函数定义，你可以将云函数拆分到多个文件方便管理，但需要在主文件中加载它们
@@ -17,20 +18,24 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
 // 设置默认超时时间
-app.use(timeout('15s'));
+app.use(timeout('60s'));
 
 // 加载云引擎中间件
 app.use(AV.express());
 
 app.enable('trust proxy');
 // 需要重定向到 HTTPS 可去除下一行的注释。
-// app.use(AV.Cloud.HttpsRedirect());
+app.use(AV.Cloud.HttpsRedirect());
 
 app.use(express.static('public'));
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cookieParser());
+
+app.use(cors({
+  origin: '*',
+}));
 
 app.get('/', function(req, res) {
   res.render('index', { currentTime: new Date() });
@@ -38,6 +43,41 @@ app.get('/', function(req, res) {
 
 // 可以将一类的路由单独保存在一个文件中
 app.use('/todos', require('./routes/todos'));
+
+app.post('/furigana/translate-article', async (req, res) => {
+  const Kuroshiro = require('kuroshiro');
+  const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji');
+  const cheerio = require('cheerio');
+
+  const { content } = req.body;
+
+    try {
+        const kuroshiro = new Kuroshiro();
+        await kuroshiro.init(new KuromojiAnalyzer());
+
+        const result = await kuroshiro.convert(content, { 
+            to: 'hiragana',
+            mode: 'furigana',
+        });
+        const $ = cheerio.load(`<div>${result}</div>`, {
+            decodeEntities: false,
+        });
+        $('ruby rp').remove();
+        const htmlContent = $('div').eq(0).html();
+
+        res.json({
+            success: true,
+            data: {
+                htmlContent,
+            },
+        });
+    } catch (err) {
+        console.error(err);
+        res.json({
+            success: false,
+        });
+    }
+});
 
 app.use(function(req, res, next) {
   // 如果任何一个路由都没有返回响应，则抛出一个 404 异常给后续的异常处理器
