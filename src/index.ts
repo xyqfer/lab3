@@ -26,7 +26,6 @@ app.get("/", (req, res) => {
 app.post('/furigana/translate-article', async (req, res) => {
   const Kuroshiro = require('kuroshiro');
   const KuromojiAnalyzer = require('kuroshiro-analyzer-kuromoji');
-  const cheerio = require('cheerio');
 
   const { content } = req.body;
 
@@ -38,16 +37,11 @@ app.post('/furigana/translate-article', async (req, res) => {
             to: 'hiragana',
             mode: 'furigana',
         });
-        const $ = cheerio.load(`<div>${result}</div>`, {
-            decodeEntities: false,
-        });
-        $('ruby rp').remove();
-        const htmlContent = $('div').eq(0).html();
 
         res.json({
             success: true,
             data: {
-                htmlContent,
+                htmlContent: result,
             },
         });
     } catch (err) {
