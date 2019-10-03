@@ -126,11 +126,11 @@ app.post("/game", async (req, res, next) => {
   }
 });
 
-app.use("/admin", basicAuth({
-  challenge: true,
-  realm: APP_ID,
-  users: { admin: MASTER_KEY },
-}));
+// app.use("/admin", basicAuth({
+//   challenge: true,
+//   realm: APP_ID,
+//   users: { admin: MASTER_KEY },
+// }));
 
 app.get("/admin/status", async (req, res, next) => {
   try {
@@ -138,7 +138,7 @@ app.get("/admin/status", async (req, res, next) => {
       loadBalancer: await loadBalancer.getStatus(),
       memoryUsage: process.memoryUsage(),
       osLoadavg: os.loadavg(),
-      reception: await reception.getStatus(),
+      // reception: await reception.getStatus(),
     });
   } catch (error) {
     next(error);
