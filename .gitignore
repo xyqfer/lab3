@@ -6,7 +6,6 @@ docs
 
 node_modules
 npm-debug.log
-package-lock.json
 start.sh
 .avoscloud
 .leancloud
