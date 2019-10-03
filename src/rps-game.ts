@@ -1,7 +1,10 @@
-const { autoDestroy, AutomaticGameEvent, Game, listen, watchRoomFull } = require("@leancloud/client-engine");
-const { Client, Event, Room } = require("@leancloud/play");
-const _ = require("lodash");
-const { tap } = require("rxjs/operators");
+import { autoDestroy, AutomaticGameEvent, Game, listen, watchRoomFull } from "@leancloud/client-engine";
+import { Client, Event, Room } from "@leancloud/play";
+import d = require("debug");
+import _ = require("lodash");
+import { tap } from "rxjs/operators";
+
+const debug = d("RPS");
 
 // [✊, ✌️, ✋] wins [✌️, ✋, ✊]
 const wins = [1, 2, 0];

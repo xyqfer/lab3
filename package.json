@@ -3,9 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "description": "A sample LeanCloud Client Engine app",
-  "main": "src/index.js",
+  "main": "build/index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 src/index.js"
+    "lint": "tslint src/*",
+    "lint:fix": "tslint src/* --fix",
+    "build": "tsc --build tsconfig.json",
+    "start": "node -r source-map-support/register --max-old-space-size=4096 build/index.js",
+    "dev": "npm run build && npm run start",
+    "postinstall": "npm run build"
   },
   "keywords": [
     "leancloud",
@@ -17,13 +22,10 @@
     "@leancloud/client-engine": "^0.8.0-beta.0",
     "@leancloud/play": "^0.18.0-beta.0",
     "body-parser": "^1.18.3",
-    "cheerio": "^1.0.0-rc.3",
     "cors": "^2.8.5",
     "debug": "^4.1.1",
     "express": "^4.16.4",
     "express-basic-auth": "^1.1.6",
-    "kuroshiro": "^1.1.2",
-    "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "lodash": "^4.17.11",
     "rxjs": "^6.4.0",
     "source-map-support": "^0.5.11"
