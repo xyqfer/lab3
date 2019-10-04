@@ -10,7 +10,7 @@ const wins = [1, 2, 0];
  * 石头剪刀布游戏
  */
 class RPSGame extends Game {
-  static defaultSeatCount = 2;
+  defaultSeatCount = 2;
 
   constructor(room, masterClient) {
     super(room, masterClient);
@@ -41,7 +41,6 @@ class RPSGame extends Game {
     const playerLeftPromise = listen(this.masterClient, Event.PLAYER_ROOM_LEFT);
     // 取上面两个事件先发生的那个作为结果
     const result = await Promise.race([playPromise, playerLeftPromise]);
-    debug(result);
     let choices;
     let winner;
     if (Array.isArray(result)) {
@@ -58,7 +57,6 @@ class RPSGame extends Game {
       choices,
       winnerId: winner ? winner.userId : null,
     });
-    debug("RPS end");
   }
 
   /**
