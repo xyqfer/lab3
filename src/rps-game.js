@@ -1,4 +1,4 @@
-const { AutomaticGameEvent, Game, listen, } = requier("@leancloud/client-engine");
+const { AutomaticGameEvent, Game, listen, } = require("@leancloud/client-engine");
 const { Event, } = require("@leancloud/play");
 const _ = require("lodash");
 const { tap } = require("rxjs/operators");
