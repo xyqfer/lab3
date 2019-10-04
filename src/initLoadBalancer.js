@@ -1,11 +1,12 @@
 const { LoadBalancerFactory, } = require("@leancloud/client-engine");
 const Reception = require("./reception");
-const PRSGame = require("./rps-game");
+// const PRSGame = require("./rps-game");
+const { Game, } = requier("@leancloud/client-engine");
 const { APP_ID, APP_KEY, MASTER_KEY } = require("./configs");
 
 const initLoadBalancer = () => {
   const reception = new Reception(
-    PRSGame,
+    Game,
     APP_ID,
     APP_KEY,
     {
