@@ -20,7 +20,7 @@ const initLoadBalancer = () => {
   });
   
   const loadBalancer = loadBalancerFactory
-    .bind(reception, ["makeReservation", "createGameAndGetName"])
+    .bind(reception, [])
     .on("online", () => console.log("Load balancer online")).on("offline", () => {
       console.warn(
   `The load balancer can not connect to Redis server. Client Engine will keep running in standalone mode.
