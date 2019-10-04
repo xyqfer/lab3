@@ -1,10 +1,7 @@
-import { autoDestroy, AutomaticGameEvent, Game, listen, watchRoomFull } from "@leancloud/client-engine";
-import { Client, Event, Room } from "@leancloud/play";
-import d = require("debug");
-import _ = require("lodash");
-import { tap } from "rxjs/operators";
-
-const debug = d("RPS");
+const { AutomaticGameEvent, Game, listen, } = requier("@leancloud/client-engine");
+const { Event, } = require("@leancloud/play");
+const _ = require("lodash");
+const { tap } = require("rxjs/operators");
 
 // [✊, ✌️, ✋] wins [✌️, ✋, ✊]
 const wins = [1, 2, 0];
@@ -12,25 +9,23 @@ const wins = [1, 2, 0];
 /**
  * 石头剪刀布游戏
  */
-// @watchRoomFull()
-// @autoDestroy()
- export default class RPSGame extends Game {
-  public static defaultSeatCount = 2;
+class RPSGame extends Game {
+  static defaultSeatCount = 2;
 
-  constructor(room: Room, masterClient: Client) {
+  constructor(room, masterClient) {
     super(room, masterClient);
     // 游戏创建后立刻执行的逻辑
     this.once(AutomaticGameEvent.ROOM_FULL, this.start);
   }
 
-  public terminate() {
+  terminate() {
     // 将游戏 Room 的 open 属性标记为 false，不再允许用户加入了。
     // 客户端可以按照业务需求响应该属性的变化（例如对于还未开始的游戏，客户端可以重新发起加入新游戏请求）。
     this.masterClient.setRoomOpened(false);
     return super.terminate();
   }
 
-  protected start = async () => {
+  start = async () => {
     // 标记房间不再可加入
     this.masterClient.setRoomOpened(false);
     // 向客户端广播游戏开始事件
@@ -39,7 +34,7 @@ const wins = [1, 2, 0];
     const playPromise = Promise.all(this.players.map((player) =>
         this.takeFirst("play", player)
           // 向其他玩家转发出牌动作，但是隐藏具体的 choice
-          .pipe(tap(_.bind(this.forwardToTheRests, this, _, () => ({})) as typeof RPSGame.prototype.forwardToTheRests))
+          .pipe(tap(_.bind(this.forwardToTheRests, this, _, () => ({}))))
           .toPromise(),
       ));
     // 监听 player 离开游戏事件
@@ -51,7 +46,7 @@ const wins = [1, 2, 0];
     let winner;
     if (Array.isArray(result)) {
       // 如果都已做出选择，比较得到赢家
-      choices = result.map(({ eventData }) => eventData.index as number);
+      choices = result.map(({ eventData }) => eventData.index);
       winner = this.getWinner(choices);
     } else {
       // 如果某玩家离开了游戏，另一位玩家胜利
@@ -70,7 +65,7 @@ const wins = [1, 2, 0];
    * 根据玩家的选择计算赢家
    * @return 返回胜利的 Player，或者 null 表示平局
    */
-  private getWinner([player1Choice, player2Choice]: number[]) {
+  getWinner([player1Choice, player2Choice]) {
     if (player1Choice === player2Choice) { return null; }
     if (wins[player1Choice] === player2Choice) { return this.players[0]; }
     return this.players[1];
