@@ -17,6 +17,7 @@
     "@leancloud/client-engine": "^0.8.0-beta.0",
     "@leancloud/play": "^0.18.0-beta.0",
     "body-parser": "^1.18.3",
+    "bytes": "^3.1.0",
     "cheerio": "^1.0.0-rc.3",
     "connect-timeout": "^1.9.0",
     "cors": "^2.8.5",
