@@ -5,7 +5,8 @@
   "description": "A sample LeanCloud Client Engine app",
   "main": "build/index.js",
   "scripts": {
-    "start": "node --max-old-space-size=4096 src/index.js"
+    "start": "node --max-old-space-size=4096 src/index.js",
+    "dev": "nodemon src/index.js"
   },
   "keywords": [
     "leancloud",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@leancloud/client-engine": "^0.8.0-beta.0",
     "@leancloud/play": "^0.18.0-beta.0",
+    "@xyqfer/leancloud-db": "^1.2.2",
     "body-parser": "^1.18.3",
     "bytes": "^3.1.0",
     "cheerio": "^1.0.0-rc.3",
@@ -27,6 +29,7 @@
     "express-basic-auth": "^1.1.6",
     "kuroshiro": "^1.1.2",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
+    "leancloud-storage": "^3.15.0",
     "lodash": "^4.17.11",
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
