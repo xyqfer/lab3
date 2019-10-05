@@ -1,7 +1,17 @@
+const AV = require('leanengine');
 const { Game, GameManager, LoadBalancerFactory, } = require("@leancloud/client-engine");
-const { APP_ID, APP_KEY, } = require("./configs");
+const { APP_ID, APP_KEY, MASTER_KEY, } = require("./configs");
 
-const initLoadBalancer = () => {
+const initLeanEngine = () => {
+  AV.init({
+    appId: APP_ID,
+    appKey: APP_KEY,
+    masterKey: MASTER_KEY,
+  });
+  
+  AV.Cloud.useMasterKey();
+};
+const initClientEngine = () => {
   const reception = new GameManager(
     Game,
     APP_ID,
@@ -34,5 +44,9 @@ const initLoadBalancer = () => {
     }
   });
 };
+const init = () => {
+  initLeanEngine();
+  initClientEngine();
+};
 
-module.exports = initLoadBalancer;
+module.exports = init;
