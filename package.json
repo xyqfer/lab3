@@ -26,6 +26,8 @@
     "kuroshiro": "^1.1.2",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "lodash": "^4.17.11",
+    "request": "^2.88.0",
+    "request-promise": "^4.2.4",
     "rxjs": "^6.4.0",
     "source-map-support": "^0.5.11"
   },

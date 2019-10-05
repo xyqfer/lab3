@@ -11,10 +11,11 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cors());
 
-// 首页仅起到响应健康检查的作用
-app.get("/", (req, res) => {
-  res.send(`this is home page`);
+app.get('/', (req, res) => {
+  res.send('this is home page');
 });
+
+app.post('/deploy', require('../api/deploy'));
 
 initLoadBalancer();
 app.listen(process.env.LEANCLOUD_APP_PORT || 3000);
