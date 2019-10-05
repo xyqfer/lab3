@@ -18,12 +18,7 @@ const initLoadBalancer = () => {
   
   const loadBalancer = loadBalancerFactory
     .bind(reception, [])
-    .on("online", () => console.log("Load balancer online")).on("offline", () => {
-      console.warn(
-  `The load balancer can not connect to Redis server. Client Engine will keep running in standalone mode.
-  It's probably fine if you are running it locally without a Redis server. Otherwise, check project configs.`,
-      );
-    });
+    .on("online", () => console.log("Load balancer online")).on("offline", () => {});
 
   // Graceful shutdown
   process.on("SIGTERM", async () => {
