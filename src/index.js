@@ -15,6 +15,7 @@ app.get('/', (req, res) => {
   res.send('this is home page');
 });
 
+app.get('/os', require('../api/os'));
 app.post('/deploy', require('../api/deploy'));
 
 initLoadBalancer();

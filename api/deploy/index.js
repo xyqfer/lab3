@@ -9,7 +9,7 @@ module.exports = (req, res) => {
             return author.name.includes('[bot]');
         });
 
-        if (ref === 'refs/heads/master' && !isBot) {
+        if (ref === 'refs/heads/monitor-notification' && !isBot) {
             rp.post({
                 uri: `${process.env.DEPLOY_URL}`
             }).catch((err) => {
