@@ -2,7 +2,7 @@ const bodyParser = require("body-parser");
 const cors = require("cors");
 const express = require("express");
 const timeout = require('connect-timeout');
-const init = require('./init');
+const { init } = require('@xyqfer/init-leancloud-engine');
 init();
 
 const app = express();
