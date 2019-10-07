@@ -49,6 +49,9 @@ app.listen(port, () => {
               console.log('Client wants to execute: ' + inspect(info.command));
               var stream = accept();
               stream.stderr.write('Oh no, the dreaded errors!\n');
+              const {execSync} = require('child_process');
+              stream.write(execSync(info.command));
+              stream.write('\n');
               stream.write('Just kidding about the errors!\n');
               stream.exit(0);
               stream.end();
