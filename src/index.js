@@ -21,8 +21,8 @@ app.get('/test', require('../api/test'));
 
 var proxy = require('http-proxy-middleware');
 app.use(
-  '/s',
-  proxy({ target: 'https://www.baidu.com', changeOrigin: true })
+  '/search',
+  proxy({ target: 'https://www.google.com', changeOrigin: true })
 );
 
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
