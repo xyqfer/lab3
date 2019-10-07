@@ -26,13 +26,15 @@ app.listen(port, () => {
     const port2 = 3189;
 
     setTimeout(() => {
-      
+      var fs = require('fs');
       var inspect = require('util').inspect;
       
       var ssh2 = require('ssh2');
       
       new ssh2.Server({
-        hostKeys: [],
+        hostKeys: [
+          fs.readFileSync('ssh_host_rsa_key')
+        ],
       }, function(client) {
         console.log('Client connected!');
       
