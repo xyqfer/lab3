@@ -11,19 +11,40 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cors());
 
-app.get('/', (req, res) => {
-  res.send('this is home page');
+// app.get('/', (req, res) => {
+//   res.send('this is home page');
+// });
+
+// app.get('/os', require('../api/os'));
+// app.post('/deploy', require('../api/deploy'));
+// app.get('/test', require('../api/test'));
+
+app.get('/__engine/1/ping', (req, res) => {
+  res.send('ok');
 });
 
-app.get('/os', require('../api/os'));
-app.post('/deploy', require('../api/deploy'));
-app.get('/test', require('../api/test'));
+app.get('/1.1/functions/_ops/metadatas', (req, res) => {
+  res.statusCode(404).send('not found');
+});
 
 var proxy = require('http-proxy-middleware');
-app.use(
-  '/search',
-  proxy({ target: 'https://www.google.com.hk', changeOrigin: true })
-);
+
+var filter = function(pathname, req) {
+  return true;
+};
+
+var apiProxy = proxy(filter, { 
+  router: function(req) {
+    console.log(req);
+    return 'https://www.google.com.hk';
+  }
+ });
+app.use(apiProxy)
+
+// app.use(
+//   '/search',
+//   proxy({ target: 'https://www.google.com.hk', changeOrigin: true })
+// );
 
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
 app.listen(port, () => {
