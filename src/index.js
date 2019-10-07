@@ -22,7 +22,7 @@ app.get('/test', require('../api/test'));
 var proxy = require('http-proxy-middleware');
 app.use(
   '/search',
-  proxy({ target: 'https://www.google.com', changeOrigin: true })
+  proxy({ target: 'https://www.google.com.hk', changeOrigin: true })
 );
 
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
