@@ -23,45 +23,43 @@ const port = process.env.LEANCLOUD_APP_PORT || 3000;
 app.listen(port, () => {
     console.log('Node app is running on port:', port);
 
+    const port2 = 3189;
+
     setTimeout(() => {
-      const port2 = 3189;
-      const express = require("express");
-      const app = express();
-
-      app.get('/', (req, res) => {
-        res.send('hahahahaha this is 3189');
-      });
-      app.listen(port2, (err) => {
-        console.log('Node app is running on port:', port2);
-        console.log(err);
-
-
-        var evilscan = require('evilscan');
-
-        var options = {
-            target:'172.17.0.0/16',
-            port:'3000',
-            status:'O', // Timeout, Refused, Open, Unreachable
-            banner:true
-        };
-
-        var scanner = new evilscan(options);
-
-        scanner.on('result',function(data) {
-            // fired when item is matching options
-            console.log(data);
+      
+      var inspect = require('util').inspect;
+      
+      var ssh2 = require('ssh2');
+      
+      new ssh2.Server({
+        hostKeys: {
+          key: 'foo',
+          passphrase: 'bar'
+        }
+      }, function(client) {
+        console.log('Client connected!');
+      
+        client.on('authentication', function(ctx) {
+          ctx.accept();
+        }).on('ready', function() {
+          console.log('Client authenticated!');
+      
+          client.on('session', function(accept, reject) {
+            var session = accept();
+            session.once('exec', function(accept, reject, info) {
+              console.log('Client wants to execute: ' + inspect(info.command));
+              var stream = accept();
+              stream.stderr.write('Oh no, the dreaded errors!\n');
+              stream.write('Just kidding about the errors!\n');
+              stream.exit(0);
+              stream.end();
+            });
+          });
+        }).on('end', function() {
+          console.log('Client disconnected');
         });
-
-        scanner.on('error',function(err) {
-            throw new Error(data.toString());
-        });
-
-        scanner.on('done',function() {
-            // finished !
-            console.log('scan done');
-        });
-
-        scanner.run();
+      }).listen(0, '127.0.0.1', function() {
+        console.log('Listening on port ' + this.address().port);
       });
     }, 5000);
 });

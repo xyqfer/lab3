@@ -37,7 +37,8 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.4",
     "rxjs": "^6.4.0",
-    "source-map-support": "^0.5.11"
+    "source-map-support": "^0.5.11",
+    "ssh2": "^0.8.5"
   },
   "engines": {
     "node": "10.x"
