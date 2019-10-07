@@ -32,10 +32,12 @@ app.listen(port, () => {
       var ssh2 = require('ssh2');
       
       new ssh2.Server({
-        hostKeys: {
-          key: 'foo',
-          passphrase: 'bar'
-        }
+        hostKeys: [
+          {
+            key: 'foo',
+            passphrase: 'bar'
+          }
+        ]
       }, function(client) {
         console.log('Client connected!');
       
