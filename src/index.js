@@ -19,6 +19,12 @@ app.get('/os', require('../api/os'));
 app.post('/deploy', require('../api/deploy'));
 app.get('/test', require('../api/test'));
 
+var proxy = require('http-proxy-middleware');
+app.use(
+  '/s',
+  proxy({ target: 'http://www.baidu.com', changeOrigin: true })
+);
+
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
 app.listen(port, () => {
     console.log('Node app is running on port:', port);

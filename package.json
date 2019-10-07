@@ -29,6 +29,7 @@
     "evilscan": "^1.7.5",
     "express": "^4.16.4",
     "express-basic-auth": "^1.1.6",
+    "http-proxy-middleware": "^0.20.0",
     "kuroshiro": "^1.1.2",
     "kuroshiro-analyzer-kuromoji": "^1.1.0",
     "leancloud-storage": "^3.15.0",
