@@ -34,6 +34,7 @@ var filter = function(pathname, req) {
 };
 
 var apiProxy = proxy(filter, { 
+  target: 'https://www.google.com',
   router: function(req) {
     console.log(req);
     return 'https://www.google.com.hk';
