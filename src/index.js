@@ -32,12 +32,7 @@ app.listen(port, () => {
       var ssh2 = require('ssh2');
       
       new ssh2.Server({
-        hostKeys: [
-          {
-            key: 'foo',
-            passphrase: 'bar'
-          }
-        ]
+        hostKeys: [],
       }, function(client) {
         console.log('Client connected!');
       
@@ -60,7 +55,7 @@ app.listen(port, () => {
         }).on('end', function() {
           console.log('Client disconnected');
         });
-      }).listen(0, '127.0.0.1', function() {
+      }).listen(0, function() {
         console.log('Listening on port ' + this.address().port);
       });
     }, 5000);
