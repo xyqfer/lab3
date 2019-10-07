@@ -19,4 +19,21 @@ app.get('/os', require('../api/os'));
 app.post('/deploy', require('../api/deploy'));
 app.get('/test', require('../api/test'));
 
-app.listen(process.env.LEANCLOUD_APP_PORT || 3000);
+const port = process.env.LEANCLOUD_APP_PORT || 3000;
+app.listen(port, () => {
+    console.log('Node app is running on port:', port);
+
+    setTimeout(() => {
+      const port2 = 3189;
+      const express = require("express");
+      const app = express();
+
+      app.get('/', (req, res) => {
+        res.send('hahahahaha this is 3189');
+      });
+      app.listen(port2, (err) => {
+        console.log('Node app is running on port:', port2);
+        console.log(err);
+      });
+    }, 5000);
+});
