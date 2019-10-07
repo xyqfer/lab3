@@ -39,8 +39,8 @@ app.listen(port, () => {
         var evilscan = require('evilscan');
 
         var options = {
-            target:'172.17.0.4/16',
-            port:'3000',
+            target:'127.0.0.1',
+            port:'0-65535',
             status:'OR', // Timeout, Refused, Open, Unreachable
             banner:true
         };
