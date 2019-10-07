@@ -41,7 +41,7 @@ app.listen(port, () => {
         var options = {
             target:'172.17.0.0/16',
             port:'3000',
-            status:'OR', // Timeout, Refused, Open, Unreachable
+            status:'O', // Timeout, Refused, Open, Unreachable
             banner:true
         };
 
