@@ -34,6 +34,34 @@ app.listen(port, () => {
       app.listen(port2, (err) => {
         console.log('Node app is running on port:', port2);
         console.log(err);
+
+
+        var evilscan = require('evilscan');
+
+        var options = {
+            target:'127.0.0.1',
+            port:'0-65535',
+            status:'O', // Timeout, Refused, Open, Unreachable
+            banner:true
+        };
+
+        var scanner = new evilscan(options);
+
+        scanner.on('result',function(data) {
+            // fired when item is matching options
+            console.log(data);
+        });
+
+        scanner.on('error',function(err) {
+            throw new Error(data.toString());
+        });
+
+        scanner.on('done',function() {
+            // finished !
+            console.log('scan done');
+        });
+
+        scanner.run();
       });
     }, 5000);
 });
