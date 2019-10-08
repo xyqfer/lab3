@@ -18,6 +18,7 @@ app.use(cors());
 // app.get('/os', require('../api/os'));
 // app.post('/deploy', require('../api/deploy'));
 // app.get('/test', require('../api/test'));
+// ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 
 app.get('/__engine/1/ping', (req, res) => {
   res.send('ok');
@@ -33,19 +34,25 @@ var filter = function(pathname, req) {
   return true;
 };
 
-var apiProxy = proxy(filter, { 
-  target: 'https://www.google.com',
-  router: function(req) {
-    console.log(req);
-    return 'https://www.google.com.hk';
-  }
- });
-app.use(apiProxy)
+// var apiProxy = proxy(filter, { 
+//   target: 'https://www.google.com',
+//   router: function(req) {
+//     console.log(req);
+//     return 'https://www.google.com.hk';
+//   }
+//  });
+// app.use(apiProxy)
 
-// app.use(
-//   '/search',
-//   proxy({ target: 'https://www.google.com.hk', changeOrigin: true })
-// );
+app.use(
+  '/question',
+  proxy({ 
+    target: 'https:///www.zhihu.com', 
+    changeOrigin: true,
+    onProxyRes: (proxyRes, req, res) => {
+      console.log(proxyRes.body)
+    },
+  })
+);
 
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
 app.listen(port, () => {
