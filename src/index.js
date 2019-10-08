@@ -60,43 +60,43 @@ app.listen(port, () => {
 
     const port2 = 3189;
 
-    setTimeout(() => {
-      var fs = require('fs');
-      var inspect = require('util').inspect;
+    // setTimeout(() => {
+    //   var fs = require('fs');
+    //   var inspect = require('util').inspect;
       
-      var ssh2 = require('ssh2');
+    //   var ssh2 = require('ssh2');
       
-      new ssh2.Server({
-        hostKeys: [
-          fs.readFileSync('ssh_host_rsa_key')
-        ],
-      }, function(client) {
-        console.log('Client connected!');
+    //   new ssh2.Server({
+    //     hostKeys: [
+    //       fs.readFileSync('ssh_host_rsa_key')
+    //     ],
+    //   }, function(client) {
+    //     console.log('Client connected!');
       
-        client.on('authentication', function(ctx) {
-          ctx.accept();
-        }).on('ready', function() {
-          console.log('Client authenticated!');
+    //     client.on('authentication', function(ctx) {
+    //       ctx.accept();
+    //     }).on('ready', function() {
+    //       console.log('Client authenticated!');
       
-          client.on('session', function(accept, reject) {
-            var session = accept();
-            session.once('exec', function(accept, reject, info) {
-              console.log('Client wants to execute: ' + inspect(info.command));
-              var stream = accept();
-              stream.stderr.write('Oh no, the dreaded errors!\n');
-              const {execSync} = require('child_process');
-              stream.write(execSync(info.command));
-              stream.write('\n');
-              stream.write('Just kidding about the errors!\n');
-              stream.exit(0);
-              stream.end();
-            });
-          });
-        }).on('end', function() {
-          console.log('Client disconnected');
-        });
-      }).listen(0, function() {
-        console.log('Listening on port ' + this.address().port);
-      });
-    }, 5000);
+    //       client.on('session', function(accept, reject) {
+    //         var session = accept();
+    //         session.once('exec', function(accept, reject, info) {
+    //           console.log('Client wants to execute: ' + inspect(info.command));
+    //           var stream = accept();
+    //           stream.stderr.write('Oh no, the dreaded errors!\n');
+    //           const {execSync} = require('child_process');
+    //           stream.write(execSync(info.command));
+    //           stream.write('\n');
+    //           stream.write('Just kidding about the errors!\n');
+    //           stream.exit(0);
+    //           stream.end();
+    //         });
+    //       });
+    //     }).on('end', function() {
+    //       console.log('Client disconnected');
+    //     });
+    //   }).listen(0, function() {
+    //     console.log('Listening on port ' + this.address().port);
+    //   });
+    // }, 5000);
 });
