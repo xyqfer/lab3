@@ -11,9 +11,9 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({extended: false, limit: '50mb'}));
 app.use(cors());
 
-// app.get('/', (req, res) => {
-//   res.send('this is home page');
-// });
+app.get('/', (req, res) => {
+  res.send('this is home page');
+});
 
 // app.get('/os', require('../api/os'));
 // app.post('/deploy', require('../api/deploy'));
