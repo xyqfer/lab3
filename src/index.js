@@ -15,8 +15,8 @@ app.get('/', (req, res) => {
   res.send('this is home page');
 });
 
-// app.get('/os', require('../api/os'));
-// app.post('/deploy', require('../api/deploy'));
+app.get('/os', require('../api/os'));
+app.post('/deploy', require('../api/deploy'));
 // app.get('/test', require('../api/test'));
 // ssh-keygen -t rsa -f /etc/ssh/ssh_host_rsa_key
 
