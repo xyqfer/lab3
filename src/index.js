@@ -54,7 +54,27 @@ app.use(
   })
 );
 
+app.use(
+  '/question',
+  proxy({ 
+    target: 'https://www.zhihu.com', 
+    changeOrigin: true,
+    onProxyRes: (proxyRes, req, res) => {
+      var body = [];
+        proxyRes.on('data', function (chunk) {
+            body.push(chunk);
+        });
+        proxyRes.on('end', function () {
+            body = Buffer.concat(body).toString();
+            // console.log("res from proxied server:", body);
+            res.end("my response to cli");
+        });
+    },
+  })
+);
+
 const port = process.env.LEANCLOUD_APP_PORT || 3000;
+// const port = 3008;
 app.listen(port, () => {
     console.log('Node app is running on port:', port);
 
