@@ -44,12 +44,12 @@ var filter = function(pathname, req) {
 // app.use(apiProxy)
 
 app.use(
-  '/question',
+  '/search',
   proxy({ 
-    target: 'https:///www.zhihu.com', 
+    target: 'https://www.google.com.hk', 
     changeOrigin: true,
     onProxyRes: (proxyRes, req, res) => {
-      console.log(proxyRes.body)
+      // console.log(proxyRes.body)
     },
   })
 );
