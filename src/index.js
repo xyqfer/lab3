@@ -60,14 +60,24 @@ app.use(
     target: 'https://www.zhihu.com', 
     changeOrigin: true,
     onProxyRes: (proxyRes, req, res) => {
+      delete proxyRes.headers['content-security-policy']
       var body = [];
         proxyRes.on('data', function (chunk) {
             body.push(chunk);
         });
         proxyRes.on('end', function () {
-            body = Buffer.concat(body).toString();
+            body = Buffer.concat(body).toString('utf8');
             // console.log("res from proxied server:", body);
-            res.end("my response to cli");
+            res.end(`<style>
+            .Body--Mobile .RichContent--unescapable.is-collapsed .ContentItem-rightButton {
+              display: none !important;
+            }
+
+            .Body--Mobile .RichContent.is-collapsed .RichContent-inner {
+              max-height: initial !important;
+            }
+            </style>`);
+            console.log('res endddd');
         });
     },
   })
